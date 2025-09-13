@@ -38,7 +38,7 @@ public class BookServerImpl implements BookServer {
     Book book = getById(id);
 
     if (book == null) {
-        throw new IllegalArgumentException("Livro não existe.");
+      throw new IllegalArgumentException("Livro não existe.");
     }
 
     books.put(id, bookUpdated);
@@ -51,7 +51,7 @@ public class BookServerImpl implements BookServer {
     Book book = getById(id);
 
     if (book == null) {
-        throw new IllegalArgumentException("Livro não existe.");
+      throw new IllegalArgumentException("Livro não existe.");
     }
 
     books.remove(id);

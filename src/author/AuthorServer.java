@@ -21,8 +21,8 @@ public interface AuthorServer {
     Author createAuthor(Author author);
 
     @WebMethod
-    Author updateAuthor(Long id, Author author);
+    Author updateAuthor(Long id, Author author) throws IllegalArgumentException;
 
     @WebMethod
-    void deleteAuthor(Long id);
+    void deleteAuthor(Long id) throws IllegalArgumentException;
 }

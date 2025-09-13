@@ -21,8 +21,8 @@ public interface BookServer {
   Book createBook(Book book);
 
   @WebMethod
-  Book updateBook(Long id, Book book);
+  Book updateBook(Long id, Book book) throws IllegalArgumentException;
 
   @WebMethod
-  void deleteBook(Long id);
+  void deleteBook(Long id) throws IllegalArgumentException;
 }

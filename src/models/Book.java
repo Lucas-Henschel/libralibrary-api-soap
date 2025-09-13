@@ -7,16 +7,17 @@ public class Book {
   private double price;
   private int pages;
   private String language;
+
+  public Book() {
+  }
   
   public Book(
-    Long id, 
     String title, 
     String description, 
     double price, 
     int pages, 
     String language
   ) {
-    setId(id);
     setTitle(title);
     setDescription(description);
     setPrice(price);
@@ -102,4 +103,6 @@ public class Book {
     return "Book [id=" + id + ", title=" + title + ", description=" + description + ", price=" + price + ", pages="
         + pages + ", language=" + language + "]";
   }
+
+
 }

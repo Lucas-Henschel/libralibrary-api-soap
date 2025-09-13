@@ -1,18 +1,18 @@
 package models;
 
-import java.time.LocalDate;
-
 public class Author {
   private Long id;
   private String name;
-  private LocalDate birthDate;
+  private String birthDate;
   private String nationality;
   private String biography;
+
+  public Author() {
+  }
   
-  public Author(Long id, String name, LocalDate birthDate, String nationality, String biography) {
-    setId(id);
+  public Author(String name, String birthDate, String nationality, String biography) {
     setName(name);
-    setBiography(biography);
+    setBirthDate(birthDate);
     setNationality(nationality);
     setBiography(biography);
   }
@@ -33,11 +33,11 @@ public class Author {
     this.name = name;
   }
 
-  public LocalDate getBirthDate() {
+  public String getBirthDate() {
     return birthDate;
   }
 
-  public void setBirthDate(LocalDate birthDate) {
+  public void setBirthDate(String birthDate) {
     this.birthDate = birthDate;
   }
 

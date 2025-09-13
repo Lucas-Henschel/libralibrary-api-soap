@@ -11,18 +11,18 @@ import models.Author;
 @WebService
 @SOAPBinding
 public interface AuthorServer {
-    @WebMethod
-    List<Author> getAllAuthors();
+  @WebMethod
+  List<Author> getAllAuthors();
 
-    @WebMethod
-    Author getById(Long id);
+  @WebMethod
+  Author getById(Long id);
 
-    @WebMethod
-    Author createAuthor(Author author);
+  @WebMethod
+  Author createAuthor(Author author);
 
-    @WebMethod
-    Author updateAuthor(Long id, Author author) throws IllegalArgumentException;
+  @WebMethod
+  Author updateAuthor(Long id, Author author) throws IllegalArgumentException;
 
-    @WebMethod
-    void deleteAuthor(Long id) throws IllegalArgumentException;
+  @WebMethod
+  void deleteAuthor(Long id) throws IllegalArgumentException;
 }

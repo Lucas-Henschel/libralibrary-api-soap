@@ -1,5 +1,6 @@
 package book;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,8 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.jws.WebService;
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
 
 import models.Book;
 
@@ -14,6 +17,19 @@ import models.Book;
 public class BookServerImpl implements BookServer {
   private final Map<Long, Book> books = new HashMap<>();
   private final AtomicLong idGenerator = new AtomicLong(1);
+
+  public static BookServer getBookServer() {
+    try {
+      URL url = new URL("http://127.0.0.1:3000/api/book?wsdl");
+      QName qName = new QName("http://book/", "BookServerImplService");
+
+      Service ws = Service.create(url, qName);
+
+      return ws.getPort(BookServer.class);
+    } catch (Exception ex) {
+      throw new RuntimeException("Erro ao conectar ao BookServer: " + ex.getMessage());
+    }
+  }
 
   @Override
   public List<Book> getAllBooks() {

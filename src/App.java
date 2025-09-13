@@ -1,139 +1,150 @@
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import author.AuthorServerPublisher;
+import book.BookServerPublisher;
+import library.LibraryServer;
+import library.LibraryServerImpl;
+import library.LibraryServerPublisher;
 
 import author.AuthorServer;
-import author.AuthorServerPublisher;
+import author.AuthorServerImpl;
 import book.BookServer;
-import book.BookServerPublisher;
-import models.Author;
+import book.BookServerImpl;
 import models.Book;
+import models.Author;
 
 public class App {
-    public App() {
-        initPublisher();
-        initTests();
+  public App() {
+    initPublisher();
+    initTests();
+  }
+
+  private void initPublisher() {
+    AuthorServerPublisher.main(null);
+    BookServerPublisher.main(null);
+    LibraryServerPublisher.main(null);
+  }
+
+  private void initTests() {
+    try {
+      Book book = handleBookTests();
+      Author author = handleAuthorTests();
+
+      handleLibraryTests(book, author);
+
+      removeAllInformationFromLibrary(book.getId(), author.getId());
+    } catch (Exception e) {
+      System.err.println("ERRO: " + e.getMessage());
     }
+  }
 
-    private void initPublisher() {
-        AuthorServerPublisher.main(null);
-        BookServerPublisher.main(null);
-    }
+  private Book handleBookTests() {
+    BookServer bookServer = BookServerImpl.getBookServer();
 
-    private AuthorServer getAuthorServer() {
-        try {
-            URL url = new URL("http://127.0.0.1:3000/api/author?wsdl");
-            QName qName = new QName("http://author/", "AuthorServerImplService");
+    System.out.println("=== Criando Livro ===");
+    Book book = new Book(
+      "1984", 
+      "Romance distópico", 
+      59.90, 
+      328, 
+      "PT-BR"
+    );
 
-            Service ws = Service.create(url, qName);
+    Book createdBook = bookServer.createBook(book);
+    System.out.println("Livro criado: " + createdBook + "\n");
 
-            return ws.getPort(AuthorServer.class);
-        }  catch (Exception ex) {
-            throw new RuntimeException("Erro ao conectar ao AuthorServer: " + ex.getMessage());
-        }
-    }
+    System.out.println("=== Atualizando Livro ===");
+    createdBook.setPages(123);
 
-    private BookServer getBookServer() {
-        try {
-            URL url = new URL("http://127.0.0.1:3000/api/book?wsdl");
-            QName qName = new QName("http://book/", "BookServerImplService");
+    Book updatedBook = bookServer.updateBook(createdBook.getId(), createdBook);
+    System.out.println("Livro atualizado: " + updatedBook + "\n");
 
-            Service ws = Service.create(url, qName);
+    System.out.println("=== Obtendo Livro por Id ===");
+    Book getBook = bookServer.getById(createdBook.getId());
+    System.out.println("Livro obtido: " + getBook + "\n");
 
-            return ws.getPort(BookServer.class);
-        } catch (Exception ex) {
-            throw new RuntimeException("Erro ao conectar ao BookServer: " + ex.getMessage());
-        }
-    }
+    System.out.println("=== Listando Livros ===");
+    List<Book> books = bookServer.getAllBooks();
+    books.forEach(b -> System.out.println("Livro: " + b));
 
-    private void initTests() {
-        try {
-            handleBookTests();
-            handleAuthorTests();
-        } catch (Exception e) {
-            System.err.println("ERRO: " + e.getMessage());
-        }
-    }
+    return getBook;
+  }
 
-    private void handleBookTests() {
-        BookServer bookServer = getBookServer();
+  private Author handleAuthorTests() {
+    AuthorServer authorServer = AuthorServerImpl.getAuthorServer();
 
-        System.out.println("=== Criando Livro ===");
-        Book book = new Book(
-            "1984", 
-            "Romance distópico", 
-            59.90, 
-            328, 
-            "PT-BR"
-        );
+    System.out.println("=== Criando Autor ===");
+    Author author = new Author(
+      "George Orwell", 
+      LocalDate.of(1980, 5, 20).toString(), 
+      "Inglês", 
+      "Autor de 1984 e A Revolução dos Bichos"
+    );
 
-        Book createdBook = bookServer.createBook(book);
-        System.out.println("Livro criado: " + createdBook + "\n");
+    Author createdAuthor = authorServer.createAuthor(author);
+    System.out.println("Autor criado: " + createdAuthor + "\n");
 
-        System.out.println("=== Atualizando Livro ===");
-        createdBook.setPages(123);
+    System.out.println("=== Atualizando Autor ===");
+    createdAuthor.setNationality("Brasileiro");
 
-        Book updatedBook = bookServer.updateBook(createdBook.getId(), createdBook);
-        System.out.println("Livro atualizado: " + updatedBook + "\n");
+    Author updatedAuthor = authorServer.updateAuthor(createdAuthor.getId(), createdAuthor);
+    System.out.println("Autor atualizado: " + updatedAuthor + "\n");
 
-        System.out.println("=== Obtendo Livro por Id ===");
-        Book getBook = bookServer.getById(createdBook.getId());
-        System.out.println("Livro obtido: " + getBook + "\n");
+    System.out.println("=== Obtendo Autor por Id ===");
+    Author getAuthor = authorServer.getById(createdAuthor.getId());
+    System.out.println("Autor obtido: " + getAuthor + "\n");
 
-        System.out.println("=== Listando Livros ===");
-        List<Book> books = bookServer.getAllBooks();
-        books.forEach(b -> System.out.println("Livro: " + b));
+    System.out.println("=== Listando Autores ===");
+    List<Author> authors = authorServer.getAllAuthors();
+    authors.forEach(a -> System.out.println("Autor: " + a));
 
-        System.out.println("");
+    System.out.println();
 
-        System.out.println("=== Excluindo Livro ===");
-        bookServer.deleteBook(createdBook.getId());
-        System.out.printf("Livro com id %d excluído com sucesso!", createdBook.getId());
+    return getAuthor;
+  }
 
-        System.out.println("\n\n");
-    }
+  private void handleLibraryTests(Book book, Author author) {
+    LibraryServer libraryServer = LibraryServerImpl.getLibraryServer();
 
-    private void handleAuthorTests() {
-        AuthorServer authorServer = getAuthorServer();
+    System.out.println("=== Associando Livro ao Autor ===");
+    libraryServer.addAuthorToBook(book.getId(), author.getId());
+    System.out.printf("Livro com id %d associado ao autor com id %d com sucesso!\n\n", book.getId(), author.getId());
 
-        System.out.println("=== Criando Autor ===");
-        Author author = new Author(
-            "George Orwell", 
-            LocalDate.of(1980, 5, 20).toString(), 
-            "Inglês", 
-            "Autor de 1984 e A Revolução dos Bichos"
-        );
+    System.out.println("=== Obtendo Livros do Autor ===");
+    List<Book> booksByAuthor = libraryServer.getBooksFromAuthor(author.getId());
+    booksByAuthor.forEach(b -> System.out.println("Livro: " + b));
+    System.out.println();
 
-        Author createdAuthor = authorServer.createAuthor(author);
-        System.out.println("Autor criado: " + createdAuthor + "\n");
+    System.out.println("=== Obtendo Autores do Livro ===");
+    List<Author> authorsByBook = libraryServer.getAuthorsFromBook(book.getId());
+    authorsByBook.forEach(a -> System.out.println("Autor: " + a));
+    System.out.println();
+  }
 
-        System.out.println("=== Atualizando Autor ===");
-        createdAuthor.setNationality("Brasileiro");
+  private void removeAllInformationFromLibrary(Long bookId, Long authorId) {
+    BookServer bookServer = BookServerImpl.getBookServer();
+    AuthorServer authorServer = AuthorServerImpl.getAuthorServer();
+    LibraryServer libraryServer = LibraryServerImpl.getLibraryServer();
 
-        Author updatedAuthor = authorServer.updateAuthor(createdAuthor.getId(), createdAuthor);
-        System.out.println("Autor atualizado: " + updatedAuthor + "\n");
+    System.out.println("=== Excluindo Livro ===");
+    bookServer.deleteBook(bookId);
+    System.out.printf("Livro com id %d excluído com sucesso!", bookId);
 
-        System.out.println("=== Obtendo Autor por Id ===");
-        Author getAuthor = authorServer.getById(createdAuthor.getId());
-        System.out.println("Autor obtido: " + getAuthor + "\n");
+    System.out.println("\n");
 
-        System.out.println("=== Listando Autores ===");
-        List<Author> authors = authorServer.getAllAuthors();
-        authors.forEach(a -> System.out.println("Autor: " + a));
+    System.out.println("=== Excluindo Autor ===");
+    authorServer.deleteAuthor(authorId);
+    System.out.printf("Autor com id %d excluído com sucesso!", authorId);
 
-        System.out.println("");
+    System.out.println("\n");
 
-        System.out.println("=== Excluindo Autor ===");
-        authorServer.deleteAuthor(createdAuthor.getId());
-        System.out.printf("Autor com id %d excluído com sucesso!", createdAuthor.getId());
+    System.out.println("=== Excluindo vínculo do Livro e Autor ===");
+    libraryServer.removeAuthorFromBook(bookId, authorId);
+    System.out.printf("Vínculo do authorId %d e do bookId excluído com sucesso!", authorId, bookId);
+  }
 
-        System.out.println("\n\n");
-    }
-
-    public static void main(String[] args) throws Exception {
-        new App();
-    }
+  public static void main(String[] args) throws Exception {
+    new App();
+  }
 }

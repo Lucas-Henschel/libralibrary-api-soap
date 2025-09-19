@@ -9,7 +9,7 @@ public class Author {
 
   public Author() {
   }
-  
+
   public Author(String name, String birthDate, String nationality, String biography) {
     setName(name);
     setBirthDate(birthDate);
@@ -22,6 +22,9 @@ public class Author {
   }
 
   public void setId(Long id) {
+    if (id == null) {
+      throw new IllegalArgumentException("O ID não pode ser nulo.");
+    }
     this.id = id;
   }
 
@@ -30,6 +33,9 @@ public class Author {
   }
 
   public void setName(String name) {
+    if (name == null) {
+      throw new IllegalArgumentException("O nome não pode ser nulo.");
+    }
     this.name = name;
   }
 
@@ -38,6 +44,9 @@ public class Author {
   }
 
   public void setBirthDate(String birthDate) {
+    if (birthDate == null) {
+      throw new IllegalArgumentException("A data de nascimento não pode ser nula.");
+    }
     this.birthDate = birthDate;
   }
 
@@ -46,6 +55,9 @@ public class Author {
   }
 
   public void setNationality(String nationality) {
+    if (nationality == null) {
+      throw new IllegalArgumentException("A nacionalidade não pode ser nula.");
+    }
     this.nationality = nationality;
   }
 
@@ -54,6 +66,9 @@ public class Author {
   }
 
   public void setBiography(String biography) {
+    if (biography == null) {
+      throw new IllegalArgumentException("A biografia não pode ser nula.");
+    }
     this.biography = biography;
   }
 

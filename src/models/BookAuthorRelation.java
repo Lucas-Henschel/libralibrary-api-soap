@@ -16,6 +16,9 @@ public class BookAuthorRelation {
   }
 
   public void setBookId(Long bookId) {
+    if (bookId == null) {
+      throw new IllegalArgumentException("O ID do livro não pode ser nulo.");
+    }
     this.bookId = bookId;
   }
 
@@ -24,6 +27,9 @@ public class BookAuthorRelation {
   }
 
   public void setAuthorId(Long authorId) {
+    if (authorId == null) {
+      throw new IllegalArgumentException("O ID do autor não pode ser nulo.");
+    }
     this.authorId = authorId;
   }
 

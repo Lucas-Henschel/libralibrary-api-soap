@@ -30,6 +30,9 @@ public class Book {
   }
 
   public void setId(Long id) {
+    if (id == null) {
+      throw new IllegalArgumentException("O ID não pode ser nulo.");
+    }
     this.id = id;
   }
 
@@ -38,6 +41,9 @@ public class Book {
   }
 
   public void setTitle(String title) {
+    if (title == null) {
+      throw new IllegalArgumentException("O título não pode ser nulo.");
+    }
     this.title = title;
   }
 
@@ -46,6 +52,9 @@ public class Book {
   }
 
   public void setDescription(String description) {
+    if (description == null) {
+      throw new IllegalArgumentException("A descrição não pode ser nula.");
+    }
     this.description = description;
   }
 
@@ -54,6 +63,9 @@ public class Book {
   }
 
   public void setPrice(double price) {
+    if (price <= 0) {
+      throw new IllegalArgumentException("O preço deve ser maior que zero.");
+    }
     this.price = price;
   }
 
@@ -62,6 +74,9 @@ public class Book {
   }
 
   public void setPages(int pages) {
+    if (pages <= 0) {
+      throw new IllegalArgumentException("O número de páginas deve ser maior que zero.");
+    }
     this.pages = pages;
   }
 
@@ -70,6 +85,9 @@ public class Book {
   }
 
   public void setLanguage(String language) {
+    if (language == null) {
+      throw new IllegalArgumentException("O idioma não pode ser nulo.");
+    }
     this.language = language;
   }
 

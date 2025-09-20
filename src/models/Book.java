@@ -17,7 +17,7 @@ public class Book {
     double price, 
     int pages, 
     String language
-  ) {
+  ) throws IllegalArgumentException {
     setTitle(title);
     setDescription(description);
     setPrice(price);
@@ -29,10 +29,11 @@ public class Book {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Long id) throws IllegalArgumentException {
     if (id == null) {
       throw new IllegalArgumentException("O ID não pode ser nulo.");
     }
+
     this.id = id;
   }
 
@@ -40,10 +41,11 @@ public class Book {
     return title;
   }
 
-  public void setTitle(String title) {
+  public void setTitle(String title) throws IllegalArgumentException {
     if (title == null) {
       throw new IllegalArgumentException("O título não pode ser nulo.");
     }
+
     this.title = title;
   }
 
@@ -51,10 +53,11 @@ public class Book {
     return description;
   }
 
-  public void setDescription(String description) {
+  public void setDescription(String description) throws IllegalArgumentException {
     if (description == null) {
       throw new IllegalArgumentException("A descrição não pode ser nula.");
     }
+
     this.description = description;
   }
 
@@ -62,10 +65,11 @@ public class Book {
     return price;
   }
 
-  public void setPrice(double price) {
+  public void setPrice(double price) throws IllegalArgumentException {
     if (price <= 0) {
       throw new IllegalArgumentException("O preço deve ser maior que zero.");
     }
+
     this.price = price;
   }
 
@@ -73,10 +77,11 @@ public class Book {
     return pages;
   }
 
-  public void setPages(int pages) {
+  public void setPages(int pages) throws IllegalArgumentException {
     if (pages <= 0) {
       throw new IllegalArgumentException("O número de páginas deve ser maior que zero.");
     }
+
     this.pages = pages;
   }
 
@@ -84,10 +89,11 @@ public class Book {
     return language;
   }
 
-  public void setLanguage(String language) {
+  public void setLanguage(String language) throws IllegalArgumentException {
     if (language == null) {
       throw new IllegalArgumentException("O idioma não pode ser nulo.");
     }
+    
     this.language = language;
   }
 

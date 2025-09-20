@@ -7,18 +7,19 @@ public class BookAuthorRelation {
   public BookAuthorRelation() {}
 
   public BookAuthorRelation(Long bookId, Long authorId) {
-    this.bookId = bookId;
-    this.authorId = authorId;
+    setBookId(bookId);;
+    setAuthorId(authorId);
   }
 
   public Long getBookId() {
     return bookId;
   }
 
-  public void setBookId(Long bookId) {
+  public void setBookId(Long bookId) throws IllegalArgumentException {
     if (bookId == null) {
       throw new IllegalArgumentException("O ID do livro não pode ser nulo.");
     }
+
     this.bookId = bookId;
   }
 
@@ -26,10 +27,11 @@ public class BookAuthorRelation {
     return authorId;
   }
 
-  public void setAuthorId(Long authorId) {
+  public void setAuthorId(Long authorId) throws IllegalArgumentException {
     if (authorId == null) {
       throw new IllegalArgumentException("O ID do autor não pode ser nulo.");
     }
+
     this.authorId = authorId;
   }
 

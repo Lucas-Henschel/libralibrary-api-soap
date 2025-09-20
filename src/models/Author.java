@@ -10,7 +10,12 @@ public class Author {
   public Author() {
   }
 
-  public Author(String name, String birthDate, String nationality, String biography) {
+  public Author(
+    String name, 
+    String birthDate, 
+    String nationality, 
+    String biography
+  ) throws IllegalArgumentException {
     setName(name);
     setBirthDate(birthDate);
     setNationality(nationality);
@@ -21,10 +26,11 @@ public class Author {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(Long id) throws IllegalArgumentException {
     if (id == null) {
       throw new IllegalArgumentException("O ID não pode ser nulo.");
     }
+
     this.id = id;
   }
 
@@ -32,10 +38,11 @@ public class Author {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(String name) throws IllegalArgumentException {
     if (name == null) {
       throw new IllegalArgumentException("O nome não pode ser nulo.");
     }
+
     this.name = name;
   }
 
@@ -43,10 +50,11 @@ public class Author {
     return birthDate;
   }
 
-  public void setBirthDate(String birthDate) {
+  public void setBirthDate(String birthDate) throws IllegalArgumentException {
     if (birthDate == null) {
       throw new IllegalArgumentException("A data de nascimento não pode ser nula.");
     }
+
     this.birthDate = birthDate;
   }
 
@@ -54,10 +62,11 @@ public class Author {
     return nationality;
   }
 
-  public void setNationality(String nationality) {
+  public void setNationality(String nationality) throws IllegalArgumentException {
     if (nationality == null) {
       throw new IllegalArgumentException("A nacionalidade não pode ser nula.");
     }
+
     this.nationality = nationality;
   }
 
@@ -65,10 +74,11 @@ public class Author {
     return biography;
   }
 
-  public void setBiography(String biography) {
+  public void setBiography(String biography) throws IllegalArgumentException {
     if (biography == null) {
       throw new IllegalArgumentException("A biografia não pode ser nula.");
     }
+    
     this.biography = biography;
   }
 

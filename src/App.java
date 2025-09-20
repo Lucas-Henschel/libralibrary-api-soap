@@ -39,7 +39,7 @@ public class App {
     }
   }
 
-  private Book handleBookTests() {
+  private Book handleBookTests() throws Exception {
     BookServer bookServer = BookServerImpl.getBookServer();
 
     System.out.println("=== Criando Livro ===");
@@ -71,7 +71,7 @@ public class App {
     return getBook;
   }
 
-  private Author handleAuthorTests() {
+  private Author handleAuthorTests() throws Exception {
     AuthorServer authorServer = AuthorServerImpl.getAuthorServer();
 
     System.out.println("=== Criando Autor ===");

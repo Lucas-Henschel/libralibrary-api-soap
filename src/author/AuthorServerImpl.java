@@ -11,7 +11,11 @@ import javax.jws.WebService;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
+import exceptions.LibraryValidationException;
+import library.LibraryServer;
+import library.LibraryServerImpl;
 import models.Author;
+import models.Book;
 
 @WebService(endpointInterface = "author.AuthorServer")
 public class AuthorServerImpl implements AuthorServer {
@@ -50,7 +54,7 @@ public class AuthorServerImpl implements AuthorServer {
   }
 
   @Override
-  public Author updateAuthor(Long id, Author authorUpdated) {
+  public Author updateAuthor(Long id, Author authorUpdated) throws IllegalArgumentException {
     Author author = getById(id);
 
     if (author == null) {
@@ -63,11 +67,19 @@ public class AuthorServerImpl implements AuthorServer {
   }
 
   @Override
-  public void deleteAuthor(Long id) {
+  public void deleteAuthor(Long id) throws IllegalArgumentException, LibraryValidationException {
     Author author = getById(id);
 
     if (author == null) {
       throw new IllegalArgumentException("Autor não existe.");
+    }
+
+    LibraryServer libraryService = LibraryServerImpl.getLibraryServer();
+
+    List<Book> books = libraryService.getBooksFromAuthor(id);
+
+    if (!books.isEmpty()) {
+      throw new LibraryValidationException("Não é possível deletar o autor, existem livros associados a ele.");
     }
 
     authors.remove(id);

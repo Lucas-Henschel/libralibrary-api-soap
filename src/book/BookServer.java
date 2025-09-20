@@ -6,6 +6,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import exceptions.LibraryValidationException;
 import models.Book;
 
 @WebService
@@ -24,5 +25,5 @@ public interface BookServer {
   Book updateBook(Long id, Book book) throws IllegalArgumentException;
 
   @WebMethod
-  void deleteBook(Long id) throws IllegalArgumentException;
+  void deleteBook(Long id) throws IllegalArgumentException, LibraryValidationException;
 }

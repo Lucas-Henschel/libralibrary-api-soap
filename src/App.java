@@ -122,10 +122,16 @@ public class App {
     System.out.println();
   }
 
-  private void removeAllInformationFromLibrary(Long bookId, Long authorId) {
+  private void removeAllInformationFromLibrary(Long bookId, Long authorId) throws Exception {
     BookServer bookServer = BookServerImpl.getBookServer();
     AuthorServer authorServer = AuthorServerImpl.getAuthorServer();
     LibraryServer libraryServer = LibraryServerImpl.getLibraryServer();
+
+    System.out.println("=== Excluindo vínculo do Livro e Autor ===");
+    libraryServer.removeAuthorFromBook(bookId, authorId);
+    System.out.printf("Vínculo do authorId %d e do bookId excluído com sucesso!", authorId, bookId);
+
+    System.out.println("\n");
 
     System.out.println("=== Excluindo Livro ===");
     bookServer.deleteBook(bookId);
@@ -138,10 +144,6 @@ public class App {
     System.out.printf("Autor com id %d excluído com sucesso!", authorId);
 
     System.out.println("\n");
-
-    System.out.println("=== Excluindo vínculo do Livro e Autor ===");
-    libraryServer.removeAuthorFromBook(bookId, authorId);
-    System.out.printf("Vínculo do authorId %d e do bookId excluído com sucesso!", authorId, bookId);
   }
 
   public static void main(String[] args) throws Exception {
